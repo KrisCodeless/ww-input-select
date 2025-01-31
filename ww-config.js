@@ -1,7 +1,7 @@
 export default {
     editor: {
         label: {
-            en: 'Input select',
+            en: 'Input select Codeless',
             fr: 'Champs sélection',
         },
         icon: 'select',
@@ -402,6 +402,11 @@ export default {
                                 options: { placeholder: 'Label' },
                                 multiLang: true,
                             },
+                            query: {
+                                label: { en: 'Search Value' },
+                                type: 'Text',
+                                options: { placeholder: 'Search Value' },
+                            },
                             value: {
                                 label: { en: 'Value' },
                                 type: 'Text',
@@ -418,8 +423,8 @@ export default {
                 },
             },
             defaultValue: [
-                { value: 'option', label: { en: 'option - 1' } },
-                { value: 'option2', label: { en: 'option - 2' } },
+                { value: 'option_kris', query: 'option kris', label: { en: 'option - kris' } },
+                { value: 'option_roderik', query: 'option roderik', label: { en: 'option - roderik' } },
             ],
             bindable: true,
             /* wwEditor:start */
@@ -460,6 +465,23 @@ export default {
             defaultValue: '',
             section: 'settings',
             multiLang: true,
+        },
+        queryField: {
+            hidden: (content, sidepanelContent, boundProps) => !boundProps.options || !content.options,
+            label: {
+                en: 'Query field',
+                fr: 'Query field',
+            },
+            type: 'ObjectPropertyPath',
+            options: content => {
+                if (!content.options.length || typeof content.options[0] !== 'object') {
+                    return null;
+                }
+
+                return { object: content.options[0] };
+            },
+            defaultValue: '',
+            section: 'settings',
         },
         valueField: {
             hidden: (content, sidepanelContent, boundProps) => !boundProps.options || !content.options,

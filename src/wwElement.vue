@@ -1,4 +1,6 @@
 <template>
+
+<div>test: <div v-for="option in selectProps.options">{{ JSON.stringify(option) }}</div></div>
     <Multiselect
         v-if="!isReadonly"
         ref="select"
@@ -10,10 +12,14 @@
         :class="{ editing: isEditing }"
         :classes="{ containerOpen: 'is-open', containerOpenTop: 'is-open-top' }"
         v-bind="selectProps"
+        :search="true"
+        track-by="query"
         @close="checkIsOpen"
         @focus.capture="interceptFocus"
         @focusin.capture="interceptFocus"
+        style="width: 500px;"
     >
+
         <!-- Placeholder -->
         <template #placeholder>
             <wwElement
@@ -83,6 +89,7 @@ import { computed, inject } from 'vue';
 
 const DEFAULT_LABEL_FIELD = 'label';
 const DEFAULT_VALUE_FIELD = 'value';
+const DEFAULT_QUERY_FIELD = 'query';
 
 export default {
     components: { Multiselect, OptionItem },
@@ -323,9 +330,11 @@ export default {
         formatOption(option) {
             const labelField = this.content.labelField || DEFAULT_LABEL_FIELD;
             const valueField = this.content.valueField || DEFAULT_VALUE_FIELD;
+            const queryField = this.content.queryField || DEFAULT_QUERY_FIELD;
 
             let label = wwLib.resolveObjectPropertyPath(option, labelField);
             const value = wwLib.resolveObjectPropertyPath(option, valueField);
+            const query = wwLib.resolveObjectPropertyPath(option, queryField);
 
             if (typeof label !== 'object') {
                 label = wwLib.resolveObjectPropertyPath(option, wwLib.wwLang.getText(labelField));
@@ -335,6 +344,7 @@ export default {
                 return {
                     label,
                     value,
+                    query,
                     data: option,
                 };
 
@@ -342,6 +352,7 @@ export default {
                 ? {
                       label,
                       value,
+                      query,
                       image: wwLib.resolveObjectPropertyPath(option, 'image'),
                       style: {
                           backgroundColor: wwLib.resolveObjectPropertyPath(option, 'bgColor') || '#FFFFFF00',

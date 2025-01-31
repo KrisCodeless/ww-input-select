@@ -1,5 +1,5 @@
 {
-    "name": "ww-input-select-custom",
+    "name": "ww-input-select-codeless",
     "version": "3.1.1",
     "scripts": {
         "build": "weweb build",
